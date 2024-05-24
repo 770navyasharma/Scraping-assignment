@@ -29,7 +29,7 @@ Enter the team name you want to search for when prompted.
 - Scrape Page Function: Scrapes data from a single page and follows pagination links to scrape additional pages.
 ## Project 2: Movie Information Scraper
 ### Description
-#### The script scrapes movie information for the years 2010 to 2015 from Scrape This Site and saves the data to a PostgreSQL database.
+#### The script scrapes movie information for the years 2010 to 2015 from https://www.scrapethissite.com/pages/ajax-javascript/#2015 and saves the data to a PostgreSQL database.
 
 Run the script:
 - python scraper.py
