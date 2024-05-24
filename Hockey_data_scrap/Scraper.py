@@ -44,7 +44,6 @@ def search_site(query):
     search_url = "https://www.scrapethissite.com/pages/forms/"
     params = {
         'q': query,
-        # Add any other necessary parameters here
     }
     response = requests.get(search_url, params=params)
     response.raise_for_status()
