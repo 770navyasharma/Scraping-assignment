@@ -22,7 +22,7 @@ print("Connection Successful!")
 
 # Creating the table if it doesn't exist
 create_table_query = """
-CREATE TABLE IF NOT EXISTS nhl_stats (
+CREATE TABLE IF NOT EXISTS nhl_stats_search (
     id SERIAL PRIMARY KEY,
     team_name VARCHAR(255),
     year INT,
@@ -39,10 +39,22 @@ cursor.execute(create_table_query)
 conn.commit()
 print("Table created Successfully!")
 
+
+def search_site(query):
+    search_url = "https://www.scrapethissite.com/pages/forms/"
+    params = {
+        'q': query,
+        # Add any other necessary parameters here
+    }
+    response = requests.get(search_url, params=params)
+    response.raise_for_status()
+    return response.text
+
+
 # Function to insert data into the PostgreSQL database
 def insert_data(team_name, year, wins, losses, ot_losses, win_percent, goals_for, goals_against, goal_difference):
     insert_query = sql.SQL("""
-        INSERT INTO nhl_stats (
+        INSERT INTO nhl_stats_search (
             team_name, year, wins, losses, ot_losses, win_percent, goals_for, goals_against, goal_difference
         ) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s)
     """)
@@ -50,6 +62,7 @@ def insert_data(team_name, year, wins, losses, ot_losses, win_percent, goals_for
         team_name, year, wins, losses, ot_losses, win_percent, goals_for, goals_against, goal_difference
     ))
     conn.commit()
+    print("Data inserted Successfully!")
     
     
 # Function to scrape data from a single page
@@ -64,7 +77,7 @@ def scrape_page(url):
     #scraping the table on the page
     table = soup.find('table', {'class': 'table'})
     rows = table.find_all('tr')[1:]  # Skip the header row
-
+    next_page_element = None
     for row in rows:
         cols = row.find_all('td')
         team_name = cols[0].text.strip()
@@ -86,9 +99,19 @@ def scrape_page(url):
     
 
 
+query = input("Enter team name : ")
+query = query.split(' ')
+elem = ""
+for i in range(len(query)):
+    if(i!=len(query)-1):
+        elem = elem + query[i] + "+"
+    else:
+        elem = elem + query[i]
 
-#main snippet for saving data to PostgreSQL by scraping
-url = "https://www.scrapethissite.com/pages/forms/?page_num=1"
+url = "https://www.scrapethissite.com/pages/forms/?page_num=1&q="+elem
+
+# using url = "https://www.scrapethissite.com/pages/forms/?page_num=1" would give out all the entries in all the pages with the following code however the method implemented does it for user specified input team data entries only and saves them to postgres database.
+
 next_page_element = scrape_page(url)
 while True:
     if next_page_element:
