@@ -16,7 +16,7 @@ To run these projects, you need the following installed on your machine:
 ### Description
 #### The sraper.py script scrapes NHL team statistics from https://www.scrapethissite.com/pages/forms/ and saves the data to a PostgreSQL database.
 
-Make sure to update the database connection details in scraper.py:
+Make sure to update the database connection details in scraper.py and you should have a database named nhl_data.
 
 Run the script:
 - python scraper.py
@@ -31,6 +31,8 @@ Enter the team name you want to search for when prompted.
 ### Description
 #### The script scrapes movie information for the years 2010 to 2015 from https://www.scrapethissite.com/pages/ajax-javascript/#2015 and saves the data to a PostgreSQL database.
 
+Make sure to update the database connection details in scraper.py and you should have a database named MovieLIS.
+
 Run the script:
 - python scraper.py
 ### Code Explanation
@@ -41,4 +43,4 @@ Run the script:
 ### Notes
 - Ensure that your PostgreSQL server is running and accessible.
 - Update the database connection details as per your local setup.
-- The scripts handle pagination,searching and AJAX requests to scrape dynamic content.
+- The scripts handle pagination, searching and AJAX requests to scrape dynamic content.
